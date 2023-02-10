@@ -1,0 +1,35 @@
+# code: language=ansible
+---
+# defaults vars for code
+code_setting_path: '{{ ansible_env.HOME }}/.config/Code/User'
+
+# plugins list
+code_plugins:
+
+  - aaron-bond.better-comments
+  - alefragnani.Bookmarks
+  - BeardedBear.beardedicons
+  - christian-kohler.npm-intellisense
+  - cweijan.vscode-postgresql-client2
+  - dbaeumer.vscode-eslint
+  - dionmunk.vscode-notes
+  - DotJoshJohnson.xml
+  - eamodio.gitlens
+  - EditorConfig.EditorConfig
+  - felipecaputo.git-project-manager
+  - formulahendry.auto-close-tag
+  - ginfuru.ginfuru-better-solarized-dark-theme
+  - Gydunhn.javascript-essentials
+  - jdinhlife.gruvbox
+  - kamikillerto.vscode-colorize
+  - mechatroner.rainbow-csv
+  - mrorz.language-gettext
+  - mstuttgart.odoo-scaffold
+  - mstuttgart.odoo-snippets
+  - njpwerner.autodocstring
+  - redhat.vscode-yaml
+  - sainnhe.everforest
+  - shakram02.bash-beautify
+  - teabyii.ayu
+  - xshrim.txt-syntax
+  - yzhang.markdown-all-in-one
