@@ -1,4 +1,0 @@
-- name: don_rumata.ansible_role_install_snap
-  version: v1.0.0
-
-- name: python3

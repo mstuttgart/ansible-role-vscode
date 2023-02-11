@@ -2,9 +2,38 @@
 ---
 # tasks file for code
 
-- name: Molecule Hello World!
-  ansible.builtin.debug:
-    msg: Hello, World!
+- name: Run "apt-get update"
+  ansible.builtin.apt:
+    update_cache: yes
+  changed_when: no
+
+- name: Install requirements
+  become: true
+  ansible.builtin.apt:
+    name: 
+      - apt-transport-https
+      - wget
+      - gpg
+    state: present
+
+
+- name: Dowload gpg key and configure VsCode repo
+  block:
+    - name: Add gpg signing key from Microsoft
+      ansible.builtin.get_url:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        dest: /etc/apt/trusted.gpg.d/microsoft.asc
+
+    - name: Add VsCode repo to source.list
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.asc] https://packages.microsoft.com/repos/vscode stable main"
+        state: present
+
+- name: Install VsCode
+  become: yes
+  ansible.builtin.apt:
+    name: code
+    state: present
 
 # - name: Install vscode package
 #   become: true
@@ -12,17 +41,17 @@
 #     deb: '{{ item.value }}'
 #   loop: '{{ deb_packages | dict2items }}'
 
-- name: Install snapd package
-  ansible.builtin.package:
-    name: snapd
-    state: present
-  become: true
+      #- name: Install snapd package
+      #ansible.builtin.package:
+      #name: snapd
+      #state: present
+      #become: true
 
-- name: Install VsCode snap package
-  become: true
-  snap:
-    name: code
-    classic: true
+    #- name: Install VsCode snap package
+    #become: true
+    #snap:
+    #name: code
+    #classic: true
 
 # - name: 'Ensure directory exists: {{ bashrc_folder }}'
 #   ansible.builtin.file:
