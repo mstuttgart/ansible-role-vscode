@@ -18,7 +18,7 @@
     ansible.builtin.get_url:
       url: https://packages.microsoft.com/keys/microsoft.asc
       dest: /etc/apt/trusted.gpg.d/microsoft.asc
-      mode: '0440'
+      mode: '0755'
 
   - name: Add VsCode repo to source.list
     ansible.builtin.apt_repository:
@@ -31,12 +31,25 @@
     name: code
     state: present
 
-# - name: 'Ensure directory exists: {{ code_setting_path }}'
-#   ansible.builtin.file:
-#     path: '{{ code_setting_path }}'
-#     state: directory
-#     mode: "0755"
+- name: Install VsCode extensions
+  ansible.builtin.command: code --install-extension '{{ item }}'
+  with_items: '{{ vscode_plugins }}'
+  when: vscode_plugins | length > 0
+  register: vscode_extensions_check
+  changed_when: "'already installed' not in vscode_extensions_check.stdout"
 
+- name: 'Ensure directory exists: {{ code_setting_path }}'
+  ansible.builtin.file:
+    path: '{{ code_setting_path }}'
+    state: directory
+    mode: "u=rwx,go="
+
+- name: Build settings.json in '{{ code_setting_path }}'
+  ansible.builtin.template:
+    src: settings.json.j2
+    dest: '{{ code_setting_path }}/settings.json'
+    mode: 'u=rw,go='
+  when: vscode_settings is defined
 
 # - name: Setup VsCode settings and keybindings
 #   ansible.builtin.file:
@@ -48,12 +61,7 @@
 #     - keybindings.json'
 #     - settings.json
 
-- name: Install VsCode extensions
-  ansible.builtin.command: code --install-extension '{{ item }}'
-  with_items: '{{ vscode_plugins }}'
-  when: vscode_plugins | length > 0
-  register: vscode_extensions_check
-  changed_when: "'already installed' not in vscode_extensions_check.stdout"
+
 
 # - name: Setup sysctl to fix warning to large workspace in vscode
 #   become: true

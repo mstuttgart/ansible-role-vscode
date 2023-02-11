@@ -2,6 +2,7 @@
 galaxy_info:
   author: Michell Stuttgart
   namespace: mstuttgart
+  role_name: vscode
   description: Role for installing Visual Studio Code extensions
   license: MIT
   min_ansible_version: '2.9'
@@ -10,6 +11,10 @@ galaxy_info:
       versions:
         - focal
 
-  galaxy_tags: []
+  galaxy_tags:
+    - vscode
+    - code
+    - editor
+    - development
 
 dependencies: []
