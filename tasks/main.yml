@@ -38,18 +38,25 @@
   register: vscode_extensions_check
   changed_when: "'already installed' not in vscode_extensions_check.stdout"
 
-- name: 'Ensure directory exists: {{ code_setting_path }}'
+- name: 'Ensure directory exists: {{ vscode_setting_path }}'
   ansible.builtin.file:
-    path: '{{ code_setting_path }}'
+    path: '{{ vscode_setting_path }}'
     state: directory
     mode: "u=rwx,go="
 
-- name: Build settings.json in '{{ code_setting_path }}'
+- name: Build settings.json in '{{ vscode_setting_path }}'
   ansible.builtin.template:
     src: settings.json.j2
-    dest: '{{ code_setting_path }}/settings.json'
+    dest: '{{ vscode_setting_path }}/settings.json'
     mode: 'u=rw,go='
   when: vscode_settings is defined
+
+- name: Build keybindings.json in '{{ vscode_setting_path }}'
+  ansible.builtin.template:
+    src: keybindings.json.j2
+    dest: '{{ vscode_setting_path }}/keybindings.json'
+    mode: 'u=rw,go='
+  when: vscode_keybindings is defined
 
 # - name: Setup VsCode settings and keybindings
 #   ansible.builtin.file:
