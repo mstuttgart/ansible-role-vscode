@@ -4,14 +4,12 @@ galaxy_info:
   namespace: mstuttgart
   description: Role for installing Visual Studio Code extensions
   license: MIT
-  min_ansible_version: 2.9
+  min_ansible_version: '2.9'
   platforms:
     - name: Ubuntu
       versions:
-        # - bionic
         - focal
 
   galaxy_tags: []
 
 dependencies: []
-

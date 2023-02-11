@@ -1,18 +1,24 @@
+# code: language=ansible
 ---
 dependency:
   name: galaxy
 
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: virtualbox
 
 platforms:
-  - name: Ubuntu-Focal
-    image: ubuntu:20.04
-    # privileged: true
-    # pre_build_image: true
+  - name: focal
+    box: ubuntu/focal64
 
 provisioner:
   name: ansible
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
 
 verifier:
   name: ansible

@@ -1,7 +1,22 @@
+# code: language=ansible
 ---
 - name: Converge
   hosts: all
+
+  pre_tasks:
+
+    - name: Run "apt-get update"
+      become: true
+      ansible.builtin.apt:
+        update_cache: yes
+      changed_when: no
+
   tasks:
+
     - name: "Include mstuttgart.vscode"
-      include_role:
+      ansible.builtin.include_role:
         name: "mstuttgart.vscode"
+      vars:
+        vscode_plugins:
+          - mstuttgart.odoo-scaffold
+          - mstuttgart.odoo-snippets
